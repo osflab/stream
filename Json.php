@@ -11,7 +11,7 @@ namespace Osf\Stream;
 use Osf\Container\OsfContainer as Container;
 
 /**
- * Json manipulations
+ * Json encode / decode proxy
  *
  * @author Guillaume Ponçon <guillaume.poncon@openstates.com>
  * @copyright OpenStates
@@ -22,17 +22,31 @@ use Osf\Container\OsfContainer as Container;
  */
 class Json
 {
-    public static function encode($value, bool $prettyPrintIfDev = true)
+    /**
+     * @param mixed $value
+     * @param bool $prettyPrintIfDev
+     * @return string
+     */
+    public static function encode($value, bool $prettyPrintIfDev = true): string
     {
         return json_encode($value, self::getOptions($prettyPrintIfDev));
     }
     
+    /**
+     * @param string $value
+     * @return mixed
+     */
     public static function decode($value)
     {
-        return json_decode($value);
+        return json_decode((string) $value);
     }
     
-    protected static function getOptions(bool $prettyPrintIfDev)
+    /**
+     * Build json encode options (pretty print in development mode)
+     * @param bool $prettyPrintIfDev
+     * @return int
+     */
+    protected static function getOptions(bool $prettyPrintIfDev): int
     {
         $pp = $prettyPrintIfDev && Container::getApplication()->isDevelopment();
         return JSON_UNESCAPED_UNICODE | ($pp ? JSON_PRETTY_PRINT : 0);

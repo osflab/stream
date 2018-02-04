@@ -28,13 +28,13 @@ class Text
     const TRANSITION_WORDS = ['de', 'la', 'les', 'le', 'des', 'sur', 'en', 'sous'];
     
     /**
-     * FR: Réduit la longueur d'une chaîne
+     * Crop a string with a '...' if too long
      * @param type $txt
      * @param int $maxChars
      * @param string $etc
      * @return string
      */
-    public static function crop($txt, int $maxChars = 20, string $etc = '...'):string
+    public static function crop($txt, int $maxChars = 20, string $etc = '...'): string
     {
         $txt = (string) $txt;
         if (mb_strlen($txt, self::ENCODING) > $maxChars) {
@@ -44,17 +44,17 @@ class Text
     }
     
     /**
-     * FR: Renvoit la valeur castée en chaîne si elle n'est pas nulle
+     * Cast a value to string unless it's null
      * @param mixed $val
      * @return string|null
      */
-    public static function strOrNull($val)
+    public static function strOrNull($val): ?string
     {
         return $val === null ? null : (string) $val;
     }
     
     /**
-     * FR: Renvoit un int si c'est numérique, null sinon
+     * Return int if numeric, null otherwise
      * @param mixed $val
      * @return int|null
      */
@@ -64,7 +64,7 @@ class Text
     }
     
     /**
-     * FR: Formatte un numéro de téléphone
+     * Format a phone number
      * @param mixed $phoneNumber
      * @return string
      */
@@ -112,23 +112,23 @@ class Text
     }
     
     /**
-     * FR: Supprime tous les caractères non utiles d'un numéro de téléphone
+     * Removes useless chars from a telephone number
      * @param string $phoneNumber
      * @return string
      */
-    public static function phoneClean($phoneNumber):string
+    public static function phoneClean($phoneNumber): string
     {
         return preg_replace('/[^+0-9]/', '', (string) $phoneNumber);
     }
     
     /**
-     * FR: Formatte un prix dans la monaie indiquée
+     * Format a price
      * @param mixed $value
      * @param string $currency
      * @param bool $withSymbol
      * @return string
      */
-    public static function currencyFormat($value, $currency = 'EUR', bool $withSymbol = true):string
+    public static function currencyFormat($value, $currency = 'EUR', bool $withSymbol = true): string
     {
         $number = number_format((float) $value, 2, '.', ',');
         switch ($currency) {
@@ -142,11 +142,11 @@ class Text
     }
     
     /**
-     * FR: Met les début de mots en majuscule (pour les mots composés)
-     * @param string $str
+     * jean-albert dupont -> Jean-Albert Dupont
+     * @param mixed $str
      * @return string
      */
-    public static function ucPhrase($str)
+    public static function ucPhrase($str): string
     {
         $str = mb_strtolower(self::cleanPhrase($str), self::ENCODING);
         $names = explode(' ', $str);
@@ -160,14 +160,14 @@ class Text
      * @param mixed $value
      * @return string
      */
-    protected static function ucFirstTouch(&$value)
+    protected static function ucFirstTouch(&$value): string
     {
         $value = self::ucFirst($value, true);
         return $value;
     }
     
     /**
-     * FR: Trim et supprimer les double espaces, espaces de part et d'autre des tirets...
+     * " Jean -  Albert    Dupont " -> "Jean-Albert Dupont"
      * @param string $str
      * @return string
      */
@@ -177,7 +177,7 @@ class Text
     }
     
     /**
-     * strtolower unicode
+     * unicode strtolower
      * @param mixed $txt
      * @param bool $cleanPhrase
      * @return string
@@ -189,7 +189,7 @@ class Text
     }
     
     /**
-     * strtoupper unicode
+     * unicode strtoupper
      * @param mixed $txt
      * @param bool $cleanPhrase
      * @return string
@@ -201,7 +201,7 @@ class Text
     }
     
     /**
-     * ucfirst unicode
+     * unicode ucfirst
      * @param mixed $txt
      * @return string
      */
@@ -219,7 +219,7 @@ class Text
     }
     
     /**
-     * strlen unicode
+     * unicode strlen
      * @param mixed $txt
      * @return int
      */
@@ -229,11 +229,20 @@ class Text
     }
     
     /**
-     * FR: Retire/replace les accents, caractères spéciaux et espaces
-     * @param string $txt
+     * 
+     * @param  $txt
      * @return string
      */
-    public static function getAlpha($txt, $convertPoint = false, $allowWhiteSpaces = false, $regex = '/[^a-zA-Z0-9 ._+-]/')
+    
+    /**
+     * Lite transliteration (replace accents, special chars and spaces)
+     * @param mixed $txt
+     * @param bool $convertPoint
+     * @param bool $allowWhiteSpaces
+     * @param string $regex
+     * @return string
+     */
+    public static function getAlpha($txt, bool $convertPoint = false, bool $allowWhiteSpaces = false, string $regex = '/[^a-zA-Z0-9 ._+-]/'): string
     {
         $from = utf8_decode("ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÇçÌÍÎÏìíîïÙÚÛÜùúûüŸŶÿŷÑñ /" . ($convertPoint ? '.' : ''));
         $to = "aaaaaaaaaaaaooooooooooooeeeeeeeecciiiiiiiiuuuuuuuuYYyynn" . ($allowWhiteSpaces ? ' ' : '-') . "-" . ($convertPoint ? '-' : '');
@@ -242,36 +251,37 @@ class Text
     }
     
     /**
-     * FR: Affiche un pourcentage depuis une valeur (0.1 = 10%)
+     * Build a percentage from a float (0.1 = 10%)
      * @param mixed $value
      * @param bool $withSymbol
      * @param int $precision
      * @return string
      */
-    public static function toPercentage($value, bool $withSymbol = true, $precision = 0)
+    public static function toPercentage($value, bool $withSymbol = true, $precision = 0): string
     {
         return self::percentageFormat(100 * (float) $value, $withSymbol, $precision);
     }
     
     /**
-     * FR: Affiche la valeur en pourcentage (10 = 10%)
+     * Round and add the % symbol
      * @param mixed $value
      * @param bool $withSymbol
      * @param int $precision
      * @return string
      */
-    public static function percentageFormat($value, bool $withSymbol = true, $precision = 0)
+    public static function percentageFormat($value, bool $withSymbol = true, int $precision = 0): string
     {
         $percentValue = round((float) $value, $precision);
         return $percentValue . ($withSymbol ? ' %' : '');
     }
     
     /**
-     * FR: Formate une date pour une locale donnée
+     * Format a date with the specified locale
      * @param DateTime $date
      * @param string $locale
      * @param bool $short
      * @return string
+     * @todo use an external library ?
      */
     public static function formatDate(DateTime $date, $locale = null, bool $short = false)
     {
@@ -281,17 +291,18 @@ class Text
             'en'    => $short ? 'd/m/y' : 'd/m/Y',
             'en_US' => $short ? 'm/d/y' : 'm/d/Y'
         ];
-        return $date->format($localDates[$locale]);
+        return (string) $date->format($localDates[$locale]);
     }
     
     /**
-     * FR: Formate une date au format long (dimanch 1 octobre 2017).
+     * Date format (long : dimanche 1 octobre 2017).
      * @param DateTime $date
      * @param string $locale
      * @param bool $short
      * @return string
+     * @todo use an external library ?
      */
-    public static function formatDateLong(DateTime $date, $locale = null)
+    public static function formatDateLong(DateTime $date, $locale = null): string
     {
         $locale = $locale ?? 'fr';
         $localDates = [
@@ -301,12 +312,13 @@ class Text
     }
     
     /**
-     * FR: Formate une date pour une locale donnée
+     * Format a datetime with the specified locale
      * @param DateTime $date
      * @param string $locale
      * @return string
+     * @todo use an external library ?
      */
-    public static function formatDateTime(DateTime $date, $locale = null, string $mask = null, bool $short = false)
+    public static function formatDateTime(DateTime $date, $locale = null, string $mask = null, bool $short = false): string
     {
         $locale = $locale ?? 'fr';
         if ($mask === null) {
@@ -317,18 +329,18 @@ class Text
             ];
             $mask = $localDates[$locale];
         }
-        return $date->format($mask);
+        return (string) $date->format($mask);
     }
     
     /**
-     * FR: Décompose une couleur hexadécimales et valeurs RGB décimales
+     * Color transformation : #FF00FF -> [255, 0, 255]
      * @param string $hexColor
      * @param int $dr
      * @param int $dg
      * @param int $db
      * @return array
      */
-    public static function explodeColor($hexColor, int $dr = null, int $dg = null, int $db = null):array
+    public static function explodeColor($hexColor, int $dr = null, int $dg = null, int $db = null): array
     {
         $colors = [];
         preg_match_all('/^#?([0-9A-Fa-f]{2})([0-9A-Fa-f]{2})([0-9A-Fa-f]{2})$/', trim($hexColor), $colors);
@@ -340,10 +352,11 @@ class Text
     
     /**
      * some_phrase => SomePhrase
-     * @param string $word
+     * @param mixed $word
+     * @param bool $ucFirstWord
      * @return string
      */
-    public static function camelCase($word, $ucFirstWord = true): string
+    public static function camelCase($word, bool $ucFirstWord = true): string
     {
         static $words = [];
         
@@ -362,10 +375,11 @@ class Text
      * @param string $separator
      * @return string
      */
-    public static function fromCamelCaseToLower(string $word, string $separator = '-'): string
+    public static function fromCamelCaseToLower($word, string $separator = '-'): string
     {
         $str = '';
         $active = false;
+        $word = (string) $word;
         for ($i = 0; $i <= mb_strlen($word); $i++) {
             $char = mb_substr($word, $i, 1, self::ENCODING);
             $str .= ($active && $char >= 'A' && $char <= 'Z' ? $separator : '') . mb_strtolower($char);
@@ -375,7 +389,7 @@ class Text
     }
     
     /**
-     * FR: Transliteration for search engine
+     * Transliteration for a search engine
      * @param string|null $txt
      * @return string|null
      */
@@ -384,13 +398,11 @@ class Text
         if ($txt === null) {
             return null;
         }
-        include_once(__DIR__ . '/../../../vendor/patchwork/utf8/src/Patchwork/PHP/Shim/Normalizer.php');
-        include_once(__DIR__ . '/../../../vendor/patchwork/utf8/src/Patchwork/Utf8.php');
         return strtolower(\Patchwork\Utf8::toAscii((string) $txt));
     }
     
     /**
-     * FR: Remplace {C:NOM_DE_CONSTANTE} par la valeur de la constante dans le texte
+     * Replace {C:CONST_NAME} by the constant value
      * @param type $txt
      */
     public static function substituteConstants($txt)
@@ -399,8 +411,9 @@ class Text
     }
     
     /**
-     * FR: Substitution des constantes contenues dans le texte
+     * Substitute constant in the $values[1] (see self::VALID_CONSTANTS)
      * @param array $values
+     * @return mixed
      */
     protected static function filterConstant(array $values)
     {
@@ -411,11 +424,11 @@ class Text
     }
     
     /**
-     * FR: Formattage d'un n° de Siret à 14 chiffres
+     * Format a siret number with 14 digits
      * @param string $value
      * @return string
      */
-    public static function formatSiret($value)
+    public static function formatSiret($value): string
     {
         $value = (string) (int) $value;
         if (!self::isSiret($value)) {
@@ -425,12 +438,12 @@ class Text
     }
     
     /**
-     * FR: Extrait le siren du siret (FR)
+     * Extract french siren from siret
      * @param string $siret
      * @param bool $format
      * @return string
      */
-    public static function siretToSiren($siret, bool $format = false)
+    public static function siretToSiren($siret, bool $format = false): string
     {
         $value = (string) (int) $siret;
         if (!self::isSiret($value)) {
@@ -445,13 +458,13 @@ class Text
      * @param string $value
      * @return bool
      */
-    protected static function isSiret(string $value)
+    protected static function isSiret(string $value): bool
     {
         return preg_match('/^[0-9]{14}$/', $value);
     }
     
     /**
-     * FR: Formattage d'un numéro de TVA intracommunautaire
+     * Intracom TVA formatting
      * @param string $value
      * @return string
      */
@@ -462,7 +475,7 @@ class Text
     }
     
     /**
-     * FR: Converti en iso-8859-x pour les traitements incomptables avec unicode
+     * UTF8 -> iso-8859-x
      * @param string $unicodeString
      * @return string
      */
@@ -472,7 +485,7 @@ class Text
     }
     
     /**
-     * FR: Pendant de toIso()
+     * iso-8859-x -> UTF-8
      * @param string $isoString
      * @return string
      */

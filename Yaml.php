@@ -59,11 +59,11 @@ class Yaml
     }
     
     /**
-     * FR: Determine le moteur de traitement des flux yaml
+     * Auto set the library to use (php extension first, symfony otherwise)
      * @staticvar string $engine
      * @return string|null
      */
-    protected static function getEngine():?string
+    protected static function getEngine(): ?string
     {
         static $engine = null;
         
@@ -76,11 +76,16 @@ class Yaml
                         : self::ENGINE_NONE;
             }
         }
+        
         return $engine;
     }
     
+    /**
+     * No engine exception
+     * @throws ArchException
+     */
     protected static function noEngine()
     {
-        throw new ArchException('No engine found for yaml');
+        throw new ArchException('No engine found to process yaml');
     }
 }

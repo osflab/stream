@@ -26,7 +26,7 @@ class TwigLight
     protected $updateCache;
     
     /**
-     * FR: Moteur de template léger utilisant une syntaxe compatible avec twig
+     * Twig compatible lite template engine
      * @param string $templateSource Contenu du template à utiliser
      * @param int $cacheTimeout Timeout de cache en secondes (0 = pas de cache)
      * @param string $cacheKey Clé du cache (null = auto mais plus lent)
@@ -41,9 +41,9 @@ class TwigLight
     }
     
     /**
-     * FR: Calcule un rendu avec les valeurs passées en paramètre
-     * @param array $values Valeurs à utiliser
-     * @param bool $debug Affiche des informations de débogage en cas de problème
+     * Render with specified values
+     * @param array $values Values to use
+     * @param bool $debug Display debug information if a problem occurs
      * @return string
      */
     public function render(array $values, bool $debug = false)
@@ -53,9 +53,9 @@ class TwigLight
     }
     
     /**
-     * FR: Transforme le tableau de valeurs pour le remplacement
+     * Prepare the value array for the replacement process
      * @param array $values
-     * @param string $prefix Utilisé pour la récursivité
+     * @param string $prefix used to perform recursively
      * @return array
      */
     protected function compileValues(array $values, $prefix = '')
@@ -72,7 +72,7 @@ class TwigLight
     }
     
     /**
-     * FR: Compilation express d'un template avec des valeurs
+     * Quick template compilation with some values
      * @param string $templateSource
      * @param array $values
      * @return string
@@ -81,4 +81,5 @@ class TwigLight
     {
         return (new self($templateSource))->render($values);
     }
+
 }

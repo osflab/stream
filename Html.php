@@ -28,7 +28,7 @@ class Html
      * @param bool $closeEmptyTag
      * @return string
      */
-    public static function buildHtmlElement($name, array $attributes = [], $content = null, $closeEmptyTag = true, array $cssClasses = [])
+    public static function buildHtmlElement($name, array $attributes = [], $content = null, $closeEmptyTag = true, array $cssClasses = []): string
     {
         $html = '<' . $name . self::buildAttrs($attributes, $cssClasses);
         if ($content !== null) {
@@ -44,7 +44,7 @@ class Html
      * @param array $attributes
      * @return string
      */
-    public static function buildAttrs(array $attributes, array $cssClasses = [])
+    public static function buildAttrs(array $attributes, array $cssClasses = []): string
     {
         $output = '';
         if ($cssClasses) {
@@ -60,7 +60,13 @@ class Html
         return $output;
     }
     
-    public static function buildHtmlScript($script, array $attributes = [])
+    /**
+     * Build an html script element
+     * @param mixed $script
+     * @param array $attributes
+     * @return string
+     */
+    public static function buildHtmlScript($script, array $attributes = []): string
     {
         $scriptCleaned = trim($script);
         if ($scriptCleaned !== '') {
@@ -75,9 +81,9 @@ class Html
      * @param string $html
      * @return string
      */
-    public static function toText($html, bool $ignoreErrors = false)
+    public static function toText($html, bool $ignoreErrors = false): string
     {
-        return (new \Html2Text\Html2Text())->convert($html, $ignoreErrors);
+        return (string) (new \Html2Text\Html2Text())->convert((string) $html, $ignoreErrors);
     }
     
     /**
