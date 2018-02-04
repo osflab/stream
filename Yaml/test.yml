@@ -1,0 +1,8 @@
+## YAML Template.
+---
+root:
+  a: b
+  c: d
+  e: 
+    - f
+    - g
