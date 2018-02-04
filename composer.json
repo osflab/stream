@@ -1,0 +1,38 @@
+{
+    "name": "osflab/stream",
+    "description": "OSF Streams manipulations",
+    "type": "library",
+    "homepage": "https://github.com/osflab/stream",
+    "license": "AGPL-3.0-or-later",
+    "authors": [
+        {
+            "name": "Guillaume Ponçon",
+            "email": "guillaume.poncon@openstates.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/osflab/stream/issues",
+        "source": "https://github.com/osflab/stream"
+    },
+    "require": {
+        "php": "^7.1.0",
+        "ext-mbstring": "*",
+        "soundasleep/html2text": "^0.5.0",
+        "patchwork/utf8": "^1.3",
+        "osflab/cache": "suggest"
+    },
+    "suggest": {
+        "ext-yaml": "For better performances"
+    },
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "Osf\\Stream\\": ""
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "3.0.x-dev"
+        }
+    }
+}
