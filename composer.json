@@ -1,6 +1,6 @@
 {
     "name": "osflab/stream",
-    "description": "OSF Streams manipulations",
+    "description": "OSF stream management",
     "type": "library",
     "homepage": "https://github.com/osflab/stream",
     "license": "AGPL-3.0-or-later",
@@ -18,8 +18,7 @@
         "php": "^7.1.0",
         "ext-mbstring": "*",
         "soundasleep/html2text": "^0.5.0",
-        "patchwork/utf8": "^1.3",
-        "osflab/cache": "suggest"
+        "patchwork/utf8": "^1.3"
     },
     "suggest": {
         "ext-yaml": "For better performances"
