@@ -10,7 +10,7 @@ namespace Osf\Stream\TwigLight;
 
 use Osf\Test\Runner as OsfTest;
 use Osf\Stream\TwigLight;
-use Osf\Crypt;
+use Osf\Crypt\Crypt;
 
 /**
  * Twiglight tests
