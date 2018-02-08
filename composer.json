@@ -31,6 +31,7 @@
         "osflab/controller": "3.0.0",
         "osflab/db": "3.0.0",
         "osflab/doc-maker": "3.0.0",
+        "osflab/filter": "3.0.0",
         "osflab/form": "3.0.0",
         "osflab/generator": "3.0.0",
         "osflab/helper": "3.0.0",
