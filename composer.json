@@ -17,8 +17,8 @@
     "require": {
         "php": "^7.1.0",
         "ext-mbstring": "*",
-        "soundasleep/html2text": "^0.5.0",
-        "patchwork/utf8": "^1.3",
+        "soundasleep/html2text": "~0.5.0",
+        "patchwork/utf8": "~1.3.1",
         "symfony/yaml": "~3.4.4",
         "osflab/exception": "~3.0.0",
         "osflab/crypt": "~3.0.0",
