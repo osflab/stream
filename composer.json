@@ -45,7 +45,7 @@
         "osflab/cache": "~3.0.0",
         "ext-yaml": "For better performances"
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "autoload": {
         "psr-4": {
             "Osf\\Stream\\": ""
