@@ -50,10 +50,5 @@
         "psr-4": {
             "Osf\\Stream\\": ""
         }
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "3.0.x-dev"
-        }
     }
 }
