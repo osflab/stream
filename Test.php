@@ -10,6 +10,7 @@ namespace Osf\Stream;
 
 use Osf\Stream\Text as T;
 use Osf\Stream\Html as H;
+use Osf\Test\Runner as OsfTest;
 
 /**
  * @author Guillaume Ponçon <guillaume.poncon@openstates.com>
@@ -19,7 +20,7 @@ use Osf\Stream\Html as H;
  * @package osf
  * @subpackage test
  */
-class Test extends \Osf\Test\Runner
+class Test extends OsfTest
 {
     public static function run()
     {
