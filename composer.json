@@ -27,7 +27,6 @@
     "provide": {
         "osflab/bean": "3.0.0",
         "osflab/config": "3.0.0",
-        "osflab/container": "3.0.0",
         "osflab/controller": "3.0.0",
         "osflab/db": "3.0.0",
         "osflab/doc-maker": "3.0.0",
