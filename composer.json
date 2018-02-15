@@ -24,6 +24,9 @@
         "osflab/crypt": "~3.0.0",
         "osflab/container": "~3.0.0"
     },
+    "require-dev": {
+        "osflab/test": "~3.0.0"
+    },
     "provide": {
         "osflab/bean": "3.0.0",
         "osflab/config": "3.0.0",
