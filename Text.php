@@ -29,14 +29,16 @@ class Text
     
     /**
      * Crop a string with a '...' if too long
-     * @param type $txt
-     * @param int $maxChars
-     * @param string $etc
+     * @param mixed $txt
+     * @param int|null $maxChars
+     * @param string|null $etc
      * @return string
      */
-    public static function crop($txt, int $maxChars = 20, string $etc = '...'): string
+    public static function crop($txt, ?int $maxChars = null, ?string $etc = null): string
     {
         $txt = (string) $txt;
+        $maxChars = $maxChars ?? 20;
+        $etc = $etc ?? '...';
         if (mb_strlen($txt, self::ENCODING) > $maxChars) {
             return mb_substr($txt, 0, $maxChars - mb_strlen($etc, self::ENCODING), self::ENCODING) . $etc;
         }
@@ -179,35 +181,36 @@ class Text
     /**
      * unicode strtolower
      * @param mixed $txt
-     * @param bool $cleanPhrase
+     * @param bool|null $cleanPhrase (default: false)
      * @return string
      */
-    public static function toLower($txt, bool $cleanPhrase = false): string
+    public static function toLower($txt, ?bool $cleanPhrase = null): string
     {
-        $txt = $cleanPhrase ? self::cleanPhrase($txt) : $txt;
+        $txt = $cleanPhrase === true ? self::cleanPhrase($txt) : $txt;
         return mb_strtolower($txt, self::ENCODING);
     }
     
     /**
      * unicode strtoupper
      * @param mixed $txt
-     * @param bool $cleanPhrase
+     * @param bool|null $cleanPhrase (default: false)
      * @return string
      */
-    public static function toUpper($txt, bool $cleanPhrase = false): string
+    public static function toUpper($txt, ?bool $cleanPhrase = null): string
     {
-        $txt = $cleanPhrase ? self::cleanPhrase($txt) : $txt;
+        $txt = $cleanPhrase === true ? self::cleanPhrase($txt) : $txt;
         return mb_strtoupper($txt, self::ENCODING);
     }
-    
+
     /**
      * unicode ucfirst
      * @param mixed $txt
+     * @param bool|null $transitionWordToLower (default: false)
      * @return string
      */
-    public static function ucFirst($txt, bool $transitionWordToLower = false): string
+    public static function ucFirst($txt, ?bool $transitionWordToLower = null): string
     {
-        if ($transitionWordToLower) {
+        if ($transitionWordToLower === true) {
             $txtLower = self::toLower($txt);
             if (in_array($txtLower, self::TRANSITION_WORDS)) {
                 return $txt;
@@ -223,7 +226,7 @@ class Text
      * @param mixed $txt
      * @return int
      */
-    public static function strLen($txt)
+    public static function strLen($txt): int
     {
         return mb_strlen((string) $txt, self::ENCODING);
     }
@@ -237,15 +240,16 @@ class Text
     /**
      * Lite transliteration (replace accents, special chars and spaces)
      * @param mixed $txt
-     * @param bool $convertPoint
-     * @param bool $allowWhiteSpaces
-     * @param string $regex
+     * @param bool|null $convertPoint
+     * @param bool|null $allowWhiteSpaces
+     * @param string|null $regex
      * @return string
      */
-    public static function getAlpha($txt, bool $convertPoint = false, bool $allowWhiteSpaces = false, string $regex = '/[^a-zA-Z0-9 ._+-]/'): string
+    public static function getAlpha($txt, ?bool $convertPoint = null, ?bool $allowWhiteSpaces = null, ?string $regex = null): string
     {
-        $from = utf8_decode("ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÇçÌÍÎÏìíîïÙÚÛÜùúûüŸŶÿŷÑñ /" . ($convertPoint ? '.' : ''));
-        $to = "aaaaaaaaaaaaooooooooooooeeeeeeeecciiiiiiiiuuuuuuuuYYyynn" . ($allowWhiteSpaces ? ' ' : '-') . "-" . ($convertPoint ? '-' : '');
+        $regex = $regex ?? '/[^a-zA-Z0-9 ._+-]/';
+        $from = utf8_decode("ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÇçÌÍÎÏìíîïÙÚÛÜùúûüŸŶÿŷÑñ /" . ($convertPoint === true ? '.' : ''));
+        $to = "aaaaaaaaaaaaooooooooooooeeeeeeeecciiiiiiiiuuuuuuuuYYyynn" . ($allowWhiteSpaces === true ? ' ' : '-') . "-" . ($convertPoint === true ? '-' : '');
         $txt = utf8_encode(strtr(utf8_decode($txt), $from, $to));
         return preg_replace($regex, '', $txt);
     }
@@ -253,11 +257,11 @@ class Text
     /**
      * Build a percentage from a float (0.1 = 10%)
      * @param mixed $value
-     * @param bool $withSymbol
-     * @param int $precision
+     * @param bool|null $withSymbol
+     * @param int|null $precision
      * @return string
      */
-    public static function toPercentage($value, bool $withSymbol = true, $precision = 0): string
+    public static function toPercentage($value, ?bool $withSymbol = null, ?int $precision = null): string
     {
         return self::percentageFormat(100 * (float) $value, $withSymbol, $precision);
     }
@@ -265,13 +269,14 @@ class Text
     /**
      * Round and add the % symbol
      * @param mixed $value
-     * @param bool $withSymbol
-     * @param int $precision
+     * @param bool|null $withSymbol
+     * @param int|null $precision
      * @return string
      */
-    public static function percentageFormat($value, bool $withSymbol = true, int $precision = 0): string
+    public static function percentageFormat($value, ?bool $withSymbol = null, ?int $precision = null): string
     {
-        $percentValue = round((float) $value, $precision);
+        $withSymbol = $withSymbol ?? true;
+        $percentValue = round((float) $value, (int) $precision);
         return $percentValue . ($withSymbol ? ' %' : '');
     }
     
@@ -293,12 +298,11 @@ class Text
         ];
         return (string) $date->format($localDates[$locale]);
     }
-    
+
     /**
      * Date format (long : dimanche 1 octobre 2017).
      * @param DateTime $date
      * @param string $locale
-     * @param bool $short
      * @return string
      * @todo use an external library ?
      */
@@ -310,11 +314,13 @@ class Text
         ];
         return self::toLower(strftime($localDates[$locale], $date->getTimestamp()));
     }
-    
+
     /**
      * Format a datetime with the specified locale
      * @param DateTime $date
      * @param string $locale
+     * @param string|null $mask
+     * @param bool $short
      * @return string
      * @todo use an external library ?
      */
@@ -400,12 +406,13 @@ class Text
         }
         return strtolower(\Patchwork\Utf8::toAscii((string) $txt));
     }
-    
+
     /**
      * Replace {C:CONST_NAME} by the constant value
-     * @param type $txt
+     * @param mixed $txt
+     * @return string
      */
-    public static function substituteConstants($txt)
+    public static function substituteConstants($txt): string
     {
         return preg_replace_callback('/\{C:([A-Z_]+)\}/', ['\Osf\Stream\Text', 'filterConstant'], $txt);
     }
